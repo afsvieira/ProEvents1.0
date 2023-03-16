@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "MJEDK7EXdjVGVw4CDwLz5gmB4IGKfeTsz2AKXc4wTIBHEn6Otpy4pM76NshXx8MCpyODdCsi8soPrSzA5ELIxw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\antoniov\\Pessoal\\Projetos\\ProEventos1.0\\Back\\src\\ProEventos1.0.API\\ProEventos1.0.API.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\antoniov\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "C:\\Users\\antoniov\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\antoniov\\.nuget\\packages\\swashbuckle.aspnetcore\\5.6.3\\swashbuckle.aspnetcore.5.6.3.nupkg.sha512",
+    "C:\\Users\\antoniov\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\5.6.3\\swashbuckle.aspnetcore.swagger.5.6.3.nupkg.sha512",
+    "C:\\Users\\antoniov\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\5.6.3\\swashbuckle.aspnetcore.swaggergen.5.6.3.nupkg.sha512",
+    "C:\\Users\\antoniov\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\5.6.3\\swashbuckle.aspnetcore.swaggerui.5.6.3.nupkg.sha512"
+  ],
+  "logs": []
+}
