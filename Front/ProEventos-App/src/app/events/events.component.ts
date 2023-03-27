@@ -8,7 +8,10 @@ import { Component } from '@angular/core';
 })
 export class EventsComponent {
 
-  public events: any;
+  public events: any = [];
+  widthImg = 150;
+  marginImg = 2;
+  showImg = true;
 
   constructor(private http: HttpClient){ }
 
@@ -21,5 +24,9 @@ export class EventsComponent {
       response => this.events = response,
       error => console.log(error),
     );
+  }
+
+  public hiddenImg(){
+    this.showImg = !this.showImg;
   }
 }
