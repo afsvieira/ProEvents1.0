@@ -1,3 +1,7 @@
 <h1>Events</h1>
-<p>{{event.Subject}}</p>
-<p>{{event.City}}</p>
+<div *ngFor="let event of events">
+  <p><b>Subject: </b>{{event.subject}}</p>
+  <p><b>City: </b>{{event.local}}</p>
+  <hr>
+</div>
+

@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 
 @Component({
@@ -7,8 +8,18 @@ import { Component } from '@angular/core';
 })
 export class EventsComponent {
 
-  public event: any ={
-    Subject: 'Angular',
-    City: 'Toronto'
+  public events: any;
+
+  constructor(private http: HttpClient){ }
+
+  ngOnInit(): void{
+    this.getEvents();
+  }
+
+  public getEvents(): void {
+    this.http.get('https://localhost:5001/api/Events').subscribe(
+      response => this.events = response,
+      error => console.log(error),
+    );
   }
 }
