@@ -1,11 +1,16 @@
 <h2>Events</h2>
 <hr>
-<form action="" class="form-inline">
+<div class="form-inline">
   <div class="form-group mb-2">
-    <input type="text" class="form-control mr-2" placeholder="Search">
-    <button class="btn btn-outline-success">Search</button>
+    <label class="mr-2">Filter: </label>
+    <input
+    type="text"
+    class="form-control mr-2"
+    placeholder="Search"
+    [(ngModel)]="listFilter"
+    >
   </div>
-</form>
+</div>
 <table class="table table-striped table-hover">
   <thead class="thead-dark">
     <tr>
@@ -24,7 +29,7 @@
     </tr>
   </thead>
   <tbody *ngIf="events && events.length">
-    <tr *ngFor="let event of events">
+    <tr *ngFor="let event of eventsFiltered">
       <td><img [collapse]="!showImg" [isAnimated]="true" src={{event.imageURL}} [style.width.px]="widthImg" [style.margin.px]="marginImg" /></td>
       <td>{{event.eventId}}</td>
       <td>{{event.subject}}</td>
@@ -32,7 +37,10 @@
       <td>{{event.eventDate}}</td>
       <td>{{event.qtyGuests}}</td>
       <td>{{event.lote}}</td>
-      <td></td>
+      <td>
+        <button type="button" class="btn btn-primary btn-sm mr-2">Edit</button>
+        <button type="button" class="btn btn-danger btn-sm">Delete</button>
+      </td>
     </tr>
   </tbody>
   <tfoot *ngIf="!events.length">
