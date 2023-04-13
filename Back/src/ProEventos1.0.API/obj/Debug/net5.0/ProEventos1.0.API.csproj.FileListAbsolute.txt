@@ -55,3 +55,9 @@ C:\Users\antoniov\Pessoal\Projetos\ProEventos1.0\Back\src\ProEventos1.0.API\bin\
 C:\Users\antoniov\Pessoal\Projetos\ProEventos1.0\Back\src\ProEventos1.0.API\bin\Debug\net5.0\runtimes\win-arm64\native\e_sqlite3.dll
 C:\Users\antoniov\Pessoal\Projetos\ProEventos1.0\Back\src\ProEventos1.0.API\bin\Debug\net5.0\runtimes\win-x64\native\e_sqlite3.dll
 C:\Users\antoniov\Pessoal\Projetos\ProEventos1.0\Back\src\ProEventos1.0.API\bin\Debug\net5.0\runtimes\win-x86\native\e_sqlite3.dll
+C:\Users\antoniov\Pessoal\Projetos\ProEventos1.0\Back\src\ProEventos1.0.API\bin\Debug\net5.0\ProEventos.Application.dll
+C:\Users\antoniov\Pessoal\Projetos\ProEventos1.0\Back\src\ProEventos1.0.API\bin\Debug\net5.0\ProEventos.Application.pdb
+C:\Users\antoniov\Pessoal\Projetos\ProEventos1.0\Back\src\ProEventos1.0.API\bin\Debug\net5.0\ProEventos.Domain.dll
+C:\Users\antoniov\Pessoal\Projetos\ProEventos1.0\Back\src\ProEventos1.0.API\bin\Debug\net5.0\ProEventos.Persistence.dll
+C:\Users\antoniov\Pessoal\Projetos\ProEventos1.0\Back\src\ProEventos1.0.API\bin\Debug\net5.0\ProEventos.Domain.pdb
+C:\Users\antoniov\Pessoal\Projetos\ProEventos1.0\Back\src\ProEventos1.0.API\bin\Debug\net5.0\ProEventos.Persistence.pdb
