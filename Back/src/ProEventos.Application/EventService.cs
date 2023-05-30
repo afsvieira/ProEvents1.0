@@ -72,19 +72,47 @@ namespace ProEventos.Application
             }
         }
 
-        public Task<Event[]> GetAllEventAsync(bool includeSpeakers = false)
+        public async Task<Event[]> GetAllEventAsync(bool includeSpeakers = false)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var events = await _eventPersist.GetAllEventAsync(includeSpeakers);
+                if(events == null) return null;
+                return events;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            
         }
 
-        public Task<Event[]> GetAllEventBySubjectAsync(string subject, bool includeSpeakers = false)
+        public async Task<Event[]> GetAllEventBySubjectAsync(string subject, bool includeSpeakers = false)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var events = await _eventPersist.GetAllEventBySubjectAsync(subject, includeSpeakers);
+                if(events == null) return null;
+                return events;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
-        public Task<Event> GetEventByIdAsync(int eventId, bool includeSpeakers = false)
+        public async Task<Event> GetEventByIdAsync(int eventId, bool includeSpeakers = false)
         {
-            throw new NotImplementedException();
+             try
+            {
+                var events = await _eventPersist.GetEventByIdAsync(eventId, includeSpeakers);
+                if(events == null) return null;
+                return events;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         

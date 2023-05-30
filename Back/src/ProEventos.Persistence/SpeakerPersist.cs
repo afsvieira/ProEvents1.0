@@ -15,6 +15,7 @@ namespace ProEventos.Persistence
         public SpeakerPersist(ProEventosContext context)
         {
             this._context = context;
+            _context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;            
             
         }
 
