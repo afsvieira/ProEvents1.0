@@ -31,12 +31,12 @@
   <tbody *ngIf="events && events.length">
     <tr *ngFor="let event of eventsFiltered">
       <td><img [collapse]="!showImg" [isAnimated]="true" src={{event.imageURL}} [style.width.px]="widthImg" [style.margin.px]="marginImg" /></td>
-      <td>{{event.eventId}}</td>
+      <td>{{event.id}}</td>
       <td>{{event.subject}}</td>
       <td>{{event.local}}</td>
       <td>{{event.eventDate}}</td>
       <td>{{event.qtyGuests}}</td>
-      <td>{{event.lote}}</td>
+      <td>{{event.lotes[0].name}}</td>
       <td>
         <button type="button" class="btn btn-primary btn-sm mr-2">Edit</button>
         <button type="button" class="btn btn-danger btn-sm">Delete</button>

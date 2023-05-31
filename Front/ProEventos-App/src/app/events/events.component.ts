@@ -1,5 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { EventService } from '../services/event.service';
+import { Event } from '../models/Event';
 
 @Component({
   selector: 'app-events',
@@ -8,11 +9,11 @@ import { Component } from '@angular/core';
 })
 export class EventsComponent {
 
-  public eventsFiltered: any = [];
-  public events: any = [];
-  widthImg = 150;
-  marginImg = 2;
-  showImg = true;
+  public eventsFiltered: Event[] = [];
+  public events: Event[] = [];
+  public widthImg: number = 150;
+  public marginImg: number = 2;
+  public showImg: boolean = true;
   private _listFilter: string = '';
 
   public get listFilter(): string{
@@ -23,31 +24,32 @@ export class EventsComponent {
     this.eventsFiltered = this.listFilter? this.filterEvents(this.listFilter) : this.events;
   }
 
-  filterEvents(filterBy: string): any{
+  public filterEvents(filterBy: string): Event[]{
     filterBy = filterBy.toLocaleLowerCase();
     return this.events.filter(
       (event: any) => event.subject.toLocaleLowerCase().indexOf(filterBy) !== -1 ||
       event.local.toLocaleLowerCase().indexOf(filterBy) !== -1
-    )
+    );
   }
 
-  constructor(private http: HttpClient){ }
+  constructor(private eventService: EventService){ }
 
-  ngOnInit(): void{
+  public ngOnInit(): void{
     this.getEvents();
   }
 
   public getEvents(): void {
-    this.http.get('https://localhost:5001/api/Events').subscribe(
-      response => {
-        this.events = response,
+    const observer = {
+      next: (_events: Event[]) => {
+        this.events = _events,
         this.eventsFiltered = this.events
       },
-      error => console.log(error),
-    );
+      error: (error: any) => console.log(error)
+    };
+    this.eventService.getEvents().subscribe(observer);
   }
 
-  public hiddenImg(){
+  public hiddenImg(): void{
     this.showImg = !this.showImg;
   }
 }
