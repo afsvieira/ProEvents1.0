@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
-import { EventService } from '../services/event.service';
-import { Event } from '../models/Event';
+import { Component, TemplateRef } from '@angular/core';
+import { EventService } from '../../services/event.service';
+import { Event } from '../../models/Event';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-events',
@@ -8,6 +11,7 @@ import { Event } from '../models/Event';
   styleUrls: ['./events.component.scss']
 })
 export class EventsComponent {
+  modalRef?: BsModalRef;
 
   public eventsFiltered: Event[] = [];
   public events: Event[] = [];
@@ -32,9 +36,16 @@ export class EventsComponent {
     );
   }
 
-  constructor(private eventService: EventService){ }
+  constructor(
+    private eventService: EventService,
+    private modalService: BsModalService,
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService,
+    ){ }
 
   public ngOnInit(): void{
+    /** spinner starts on init */
+    this.spinner.show();
     this.getEvents();
   }
 
@@ -44,7 +55,12 @@ export class EventsComponent {
         this.events = _events,
         this.eventsFiltered = this.events
       },
-      error: (error: any) => console.log(error)
+      error: (error: any) => {
+        this.spinner.hide();
+        this.toastr.error('Error loading events.', 'Error');
+        console.log(error);
+      },
+      complete: () => this.spinner.hide()
     };
     this.eventService.getEvents().subscribe(observer);
   }
@@ -52,4 +68,18 @@ export class EventsComponent {
   public hiddenImg(): void{
     this.showImg = !this.showImg;
   }
+
+  openModal(template: TemplateRef<any>): void {
+    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+  }
+
+  confirm(): void {
+    this.modalRef?.hide();
+    this.toastr.success('Event successfully deleted.', 'Deleted');
+  }
+
+  decline(): void {
+    this.modalRef?.hide();
+  }
 }
+

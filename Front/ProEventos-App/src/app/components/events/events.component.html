@@ -1,5 +1,4 @@
-<h2>Events</h2>
-<hr>
+<app-titleShared [title]="'Events'"></app-titleShared>
 <div class="form-inline">
   <div class="form-group mb-2">
     <label class="mr-2">Filter: </label>
@@ -16,7 +15,8 @@
     <tr>
       <th>
         <button type="button" class="btn btn-outline-light btn-sm" (click)="hiddenImg()">
-        {{showImg ? 'Hide Images' : 'Show Images'}}
+          <i class="{{showImg ? 'fa fa-eye-slash' : 'fa fa-eye'}}"></i>
+          {{showImg ? 'Hide' : 'Show'}}
         </button>
       </th>
       <th>#</th>
@@ -34,12 +34,18 @@
       <td>{{event.id}}</td>
       <td>{{event.subject}}</td>
       <td>{{event.local}}</td>
-      <td>{{event.eventDate}}</td>
+      <td>{{event.eventDate | DateTimeFormatPipe}}</td>
       <td>{{event.qtyGuests}}</td>
       <td>{{event.lotes[0].name}}</td>
       <td>
-        <button type="button" class="btn btn-primary btn-sm mr-2">Edit</button>
-        <button type="button" class="btn btn-danger btn-sm">Delete</button>
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary btn-sm mr-2" tooltip="Edit">
+            <i class="fa fa-edit"></i>
+          </button>
+          <button type="button" class="btn btn-danger btn-sm" tooltip="Delete" (click)="openModal(template)">
+            <i class="fa fa-trash"></i>
+          </button>
+        </div>
       </td>
     </tr>
   </tbody>
@@ -52,3 +58,10 @@
   </tfoot>
 </table>
 
+<ng-template #template>
+  <div class="modal-body text-center">
+    <p>Are you sure?</p>
+    <button type="button" class="btn btn-default" (click)="confirm()" >Yes</button>
+    <button type="button" class="btn btn-primary" (click)="decline()" >No</button>
+  </div>
+</ng-template>
