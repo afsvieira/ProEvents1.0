@@ -9,47 +9,76 @@
 
 	<div class="col-md-6">
 
-		<form class="p-1">
+		<form [formGroup]="form" class="p-1" >
+      <p>{{form.value | json}}</p>
       <div class="pb-2 d-block d-md-none">
         <h3 class="border-bottom">Singup</h3>
       </div>
       <div class="form-row">
         <div class="form-group col-sm-6">
           <label>First name</label>
-          <input type="text" class="form-control" placeholder="First name" />
+          <input type="text" class="form-control" [ngClass]="{'is-invalid': f.firstName.errors && f.firstName.touched}" formControlName="firstName" placeholder="First name" />
+          <div class="invalid-feedback">
+            First name is required.
+          </div>
         </div>
         <div class="form-group col-sm-6">
           <label>Last name</label>
-          <input type="text" class="form-control" placeholder="Last name" />
+          <input type="text" class="form-control" [ngClass]="{'is-invalid': f.lastName.errors && f.lastName.touched}" formControlName="lastName" placeholder="Last name" />
+          <div class="invalid-feedback">
+            Last name is required.
+          </div>
         </div>
       </div>
       <div class="form-group">
         <label for="">E-mail:</label>
-        <input class="form-control" type="text" placeholder="E-mail" />
+        <input class="form-control" type="text" [ngClass]="{'is-invalid': f.email.errors && f.email.touched}" formControlName="email" placeholder="E-mail" />
+        <div *ngIf="f.email.errors?.required" class="invalid-feedback">
+          Email is required.
+        </div>
+        <div *ngIf="f.email.errors?.email" class="invalid-feedback">
+          Insert a valid email.
+        </div>
       </div>
       <div class="form-group">
         <label for="">Username:</label>
-        <input class="form-control" type="text" placeholder="Username" />
+        <input class="form-control" [ngClass]="{'is-invalid': f.username.errors && f.username.touched}" formControlName="username" type="text" placeholder="Username" />
+        <div *ngIf="f.username.errors?.required" class="invalid-feedback">
+          Username is required.
+        </div>
+        <div *ngIf="f.username.errors?.minlength || f.username.errors?.maxlength" class="invalid-feedback">
+          5 characters minimum.<br/>
+          20 characters maximum.
+        </div>
       </div>
       <div class="form-row">
         <div class="form-group col-sm-6">
           <label for="">Password:</label>
-          <input class="form-control" type="password" placeholder="Password" />
+          <input class="form-control" [ngClass]="{'is-invalid': f.password.errors && f.password.touched}" formControlName="password"  type="password" placeholder="Password" />
+          <div class="invalid-feedback">
+            Password must have 6 characters minimum.
+          </div>
         </div>
         <div class="form-group col-sm-6">
           <label for="">Password confirm:</label>
-          <input class="form-control" type="password" placeholder="Repeat password" />
+          <input class="form-control" [ngClass]="{'is-invalid': f.confirmPassword.errors && f.confirmPassword.touched}" formControlName="confirmPassword" type="password" placeholder="Repeat password" />
+          <div *ngIf="f.confirmPassword.errors?.minlength" class="invalid-feedback">
+            Password must have 6 characters minimum.
+          </div>
+          <div *ngIf="f.confirmPassword.errors?.mustMatch" class="invalid-feedback">
+            Passwords do NOT match.
+          </div>
         </div>
       </div>
       <div class="form-row p-1 mb-3">
         <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="customCheck1">
-          <label class="custom-control-label">I agree with <a href="#">Terms and Conditions</a>.</label>
+          <input type="checkbox" class="custom-control-input" formControlName="agreeTerms" id="agreeTerms"/>
+          <label for="agreeTerms" class="custom-control-label">I agree with <a href="#">Terms and Conditions</a>.</label>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group col-12">
-          <button class="btn btn-lg btn-success btn-block px-5">
+          <button class="btn btn-lg btn-success btn-block px-5" [disabled]="!form.valid">
             Singup
           </button>
         </div>
@@ -62,6 +91,5 @@
         </div>
       </div>
     </form>
-
 	</div>
 </div>

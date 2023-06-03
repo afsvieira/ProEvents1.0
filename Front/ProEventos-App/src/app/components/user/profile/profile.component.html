@@ -3,7 +3,7 @@
 [iconClass]="'fa-solid fa-user fa-2xl'">
 </app-titleShared>
 <div class="card rounded shadow-sm">
-  <form>
+  <form [formGroup]="form">
     <div class="row p-3">
       <div class="col-lg-3 pt-1">
         <div class="card mb-3">
@@ -50,41 +50,55 @@
             <select class="form-control">
               <option value=""></option>
               <option value="0">No title.</option>
-              <option value="Senhorita">Technologist</option>
-              <option value="Senhorita">Bachelor</option>
-              <option value="Senhorita">Specialist</option>
-              <option value="Senhorita">Pos-graduated</option>
-              <option value="Senhorita">Master</option>
-              <option value="Senhorita">Doctor</option>
+              <option value="technologist">Technologist</option>
+              <option value="bachelor">Bachelor</option>
+              <option value="specialist">Specialist</option>
+              <option value="posgraduated">Pos-graduated</option>
+              <option value="master">Master</option>
+              <option value="doctor">Doctor</option>
             </select>
           </div>
           <div class="form-group col-sm-5">
             <label>First name</label>
-            <input type="text" class="form-control"/>
-
+            <input type="text" class="form-control" [ngClass]="{'is-invalid': f.firstName.errors && f.firstName.touched}" formControlName="firstName"/>
+            <div class="invalid-feedback">
+              First name is required.
+            </div>
           </div>
           <div class="form-group col-sm-5">
             <label>Last name</label>
-            <input type="text" class="form-control"/>
-
+            <input type="text" class="form-control" [ngClass]="{'is-invalid': f.lastName.errors && f.lastName.touched}" formControlName="lastName"/>
+            <div class="invalid-feedback">
+              Last name is required.
+            </div>
           </div>
         </div>
         <div class="form-row">
           <div class="form-group col-sm-5">
             <label>E-mail</label>
-            <input type="text" class="form-control" />
+            <input type="text" class="form-control" [ngClass]="{'is-invalid': f.email.errors && f.email.touched}" formControlName="email"/>
+            <div *ngIf="f.email.errors?.required" class="invalid-feedback">
+              Email is required.
+            </div>
+            <div *ngIf="f.email.errors?.email" class="invalid-feedback">
+              Insert a valid email.
+            </div>
           </div>
           <div class="form-group col-sm-4">
             <label>Phone</label>
-            <input type="text" class="form-control" />
+            <input type="text" class="form-control"/>
+
           </div>
           <div class="form-group col-sm">
             <label>Status</label>
-            <select class="form-control">
+            <select class="form-control" [ngClass]="{'is-invalid': f.status.errors && f.status.touched}" formControlName="status">
               <option value=""></option>
               <option value="participant">Participant</option>
               <option value="speaker">Speaker</option>
             </select>
+            <div class="invalid-feedback">
+              Select a status.
+            </div>
           </div>
           <form-group class="col-12">
             <label>Description</label>
@@ -109,7 +123,7 @@
     </div>
     <div class="card-footer">
       <div class="d-flex">
-        <button class="btn btn-outline-secondary mr-auto border">
+        <button (click)="resetForm($event)" class="btn btn-outline-secondary mr-auto border">
           Cancel
         </button>
         <button class="btn btn-success">
