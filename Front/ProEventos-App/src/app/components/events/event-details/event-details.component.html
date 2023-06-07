@@ -4,7 +4,7 @@
       <div class="form-row">
         <div class="form-group col-md-12">
           <label>Subject</label>
-          <input type="text" class="form-control" [ngClass]="{'is-invalid': f.subject.errors && f.subject.touched }" formControlName="subject" placeholder="Add your subject">
+          <input type="text" class="form-control" [ngClass]="cssValidator(f.subject)" formControlName="subject" placeholder="Add your subject">
           <div *ngIf="f.subject.errors?.required" class="invalid-feedback">
             Subject is required.
           </div>
@@ -19,14 +19,19 @@
       <div class="form-row">
         <div class="form-group col-md-8">
           <label>City</label>
-          <input type="text" class="form-control" [ngClass]="{'is-invalid': f.city.errors && f.city.touched }" formControlName="city" placeholder="City">
+          <input type="text" class="form-control" [ngClass]="cssValidator(f.local)" formControlName="local" placeholder="City">
           <div class="invalid-feedback">
             City is required.
           </div>
         </div>
         <div class="form-group col-md-4">
           <label>Date and time</label>
-          <input type="datetime" class="form-control" [ngClass]="{'is-invalid': f.eventDate.errors && f.eventDate.touched}" formControlName="eventDate" placeholder="">
+          <input type="datetime" class="form-control"
+            [ngClass]="cssValidator(f.eventDate)"
+            value="{{event.eventDate | DateTimeFormatPipe}}"
+            formControlName="eventDate"
+            bsDatepicker
+            [bsConfig]="bsConfig">
           <div class="invalid-feedback">
             Date and time are required.
           </div>
@@ -35,7 +40,7 @@
       <div class="form-row">
         <div class="form-group col-md-2">
           <label>Quantity of participants</label>
-          <input type="text" class="form-control" [ngClass]="{'is-invalid': f.qtyGuests.errors && f.qtyGuests.touched}" formControlName="qtyGuests" placeholder="">
+          <input type="text" class="form-control" [ngClass]="cssValidator(f.qtyGuests)" formControlName="qtyGuests" placeholder="">
           <div *ngIf="f.qtyGuests.errors?.required" class="invalid-feedback">
             Quantity of participants is required.
           </div>
@@ -45,21 +50,21 @@
         </div>
         <div class="form-group col-md-2">
           <label>Phone</label>
-          <input type="text" class="form-control" [ngClass]="{'is-invalid': f.phone.errors && f.phone.touched}" formControlName="phone" placeholder="(000)000-0000">
+          <input type="text" class="form-control" [ngClass]="cssValidator(f.phone)" formControlName="phone" placeholder="(000)000-0000">
           <div class="invalid-feedback">
             Phone is required.
           </div>
         </div>
         <div class="form-group col-md-4">
           <label>Email</label>
-          <input type="text" class="form-control" [ngClass]="{'is-invalid': f.email.errors && f.email.touched}" formControlName="email" placeholder="e-mail">
+          <input type="text" class="form-control" [ngClass]="cssValidator(f.email)" formControlName="email" placeholder="e-mail">
           <div class="invalid-feedback">
             A valid email is required.
           </div>
         </div>
         <div class="form-group col-md-4">
           <label>Image</label>
-          <input type="text" class="form-control" [ngClass]="{'is-invalid': f.imageURL.errors && f.imageURL.touched}" formControlName="imageURL" placeholder="image">
+          <input type="text" class="form-control" [ngClass]="cssValidator(f.imageURL)" formControlName="imageURL" placeholder="image">
           <div class="invalid-feedback">
             Image is required.
           </div>
@@ -71,7 +76,7 @@
         <button class="btn btn-outline-secondary mr-auto border" (click)="resetForm()">
           Cancel
         </button>
-        <button class="btn btn-success" [disabled]="!form.valid">
+        <button class="btn btn-success" [disabled]="!form.valid" (click)="saveEvent()">
           <!-- <span class="spinner-border spinner-border-sm mr-1"></span> -->
           Save
         </button>

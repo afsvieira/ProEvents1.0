@@ -20,6 +20,7 @@ export class EventListComponent implements OnInit {
   public marginImg: number = 2;
   public showImg: boolean = true;
   private _listFilter: string = '';
+  public eventId = 0;
 
   public get listFilter(): string{
     return this._listFilter;
@@ -71,13 +72,31 @@ export class EventListComponent implements OnInit {
     this.showImg = !this.showImg;
   }
 
-  openModal(template: TemplateRef<any>): void {
+  openModal(event: any, template: TemplateRef<any>, eventId: number): void {
+    event.stopPropagation();
+    this.eventId = eventId;
     this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
 
   confirm(): void {
     this.modalRef?.hide();
-    this.toastr.success('Event successfully deleted.', 'Deleted');
+    this.spinner.show();
+    const observer = {
+      next: (result: any) => {
+        if(result.message === "Deleted"){
+          this.toastr.success('Event successfully deleted.', 'Deleted'),
+          this.spinner.hide(),
+          this.getEvents()
+        }
+      },
+      error: (error: any) => {
+        this.spinner.hide();
+        this.toastr.error('Error deleting event.', 'Error');
+        console.log(error);
+      },
+      complete: () => this.spinner.hide()
+    };
+    this.eventService.deleteEvent(this.eventId).subscribe(observer);
   }
 
   decline(): void {

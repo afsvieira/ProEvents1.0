@@ -35,5 +35,7 @@
     "strictTemplates": true,
     "strictPropertyInitialization": false,
     "strictNullChecks": true,
+    "noImplicitReturns": true,
+    "noImplicitAny": false
   }
 }

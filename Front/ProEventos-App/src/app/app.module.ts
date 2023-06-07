@@ -15,6 +15,7 @@ import { EventsComponent } from './components/events/events.component';
 import { SpeakersComponent } from './components/speakers/speakers.component';
 import { ProfileComponent } from './components/user/profile/profile.component';
 import { DateTimeFormatPipe } from './helpers/DateTimeFormat.pipe';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
@@ -59,6 +60,7 @@ import { RegistrationComponent } from './components/user/registration/registrati
     TooltipModule.forRoot(),
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
+    BsDatepickerModule.forRoot(),
     ToastrModule.forRoot({
         timeOut: 5000,
         positionClass: 'toast-bottom-right',
