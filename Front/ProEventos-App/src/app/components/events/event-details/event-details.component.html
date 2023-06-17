@@ -84,26 +84,30 @@
     </div>
   </form>
 </div>
+
 <div class="card rounded shadow-sm mt-4" *ngIf="editMode">
-  <div class="p-3">
-    <div class="d-flex border-bottom">
-      <h2 class="mr-auto">
-        Lots of Event
-      </h2>
-      <h2>
-        <i class="fas fa-money-bill-wave"></i>
-      </h2>
-    </div>
-    <p>Click on Lot to add a new one.</p>
-    <div class="form-row p-1">
-      <div [formGroup]="form" class="col">
-        <div formArrayName="lotes" *ngFor="let lote of lotes.controls; let i = index">
-          <fieldset [formGroupName]="i" class="form-group">
-            <legend class="d-flex justify-content-between capitalize">
-              <button class="p-2 btn btn-sm btn-outline-warning mb-1 d-flex"
+    <div class="p-3">
+      <div class="d-flex border-bottom">
+        <h2 class="mr-auto">
+          Lots of Event
+        </h2>
+        <h2>
+          <i class="fas fa-money-bill-wave"></i>
+        </h2>
+      </div>
+      <div class="form-row p-1">
+        <div [formGroup]="form" class="col">
+          <div formArrayName="lotes" *ngFor="let lote of lotes.controls; let i = index">
+            <fieldset [formGroupName]="i" class="form-group">
+              <legend class="d-flex justify-content-between capitalize">
+                {{
+                  returnTitle(lotes.get(i+'.name')?.value)
+                }}
+                <button class="p-2 btn btn-sm btn-outline-warning mb-1 d-flex"
                   tooltip="Delete lote"
                   [adaptivePosition]="false"
                   [delay]="500"
+                  (click)="openModal(template, i)"
                   placement="left">
                 <i class="fa fa-window-close my-1"></i>
                 <b class="ml-1 d-none d-sm-block">Delete</b>
@@ -112,18 +116,14 @@
             <div class="row">
               <div class="form-group col-md-4">
                 <label>Name</label>
-                <input
-                [ngClass]="cssValidator(lotes.get(i+'.name'))"
-                type="text" class="form-control" formControlName="name" placeholder="Lote">
+                <input [ngClass]="cssValidator(lotes.get(i+'.name'))" type="text" class="form-control" formControlName="name" placeholder="Lote">
                 <div class="invalid-feedback">
                   Name is required.
                 </div>
               </div>
               <div class="form-group col-md-4">
                 <label>Quantity of guests</label>
-                <input
-                [ngClass]="cssValidator(lotes.get(i+'.quantity'))"
-                type="text" class="form-control" formControlName="quantity" placeholder="0000">
+                <input [ngClass]="cssValidator(lotes.get(i+'.quantity'))" type="text" class="form-control" formControlName="quantity" placeholder="0000">
                 <div class="invalid-feedback" *ngIf="lotes.at(i).get('quantity')?.errors?.['required']">
                   Quantity of participants is required.
                 </div>
@@ -133,15 +133,23 @@
               </div>
               <div class="form-group col-md-4">
                 <label>Price</label>
-                <input type="text" currencyMask class="form-control" formControlName="price" placeholder="$ 0,00">
+                <input type="text" currencyMask [options]="{prefix: '$', thousands: ',', decimal: '.', suffix: ' CAD', align: 'left'}" class="form-control" formControlName="price" placeholder="$ 0.00">
               </div>
               <div class="form-group col-md-4">
-                <label>Start date</label>
-                <input type="text" class="form-control" formControlName="startDate" placeholder="01/01/2023">
+                <label>Start Date</label>
+                <input type="text"
+                      class="form-control"
+                      value="{{lotes.at(i).get('dateStart')?.value | date:'MMM dd, yyyy'}}"
+                      formControlName="dateStart"
+                      bsDatepicker>
               </div>
               <div class="form-group col-md-4">
-                <label>End date</label>
-                <input type="text" class="form-control" formControlName="endDate" placeholder="01/01/2023">
+                <label>End Date</label>
+                <input type="text"
+                      class="form-control"
+                      value="{{lotes.at(i).get('dateEnd')?.value | date:'MMM dd, yyyy'}}"
+                      formControlName="dateEnd"
+                      bsDatepicker>
               </div>
             </div>
           </fieldset>
@@ -150,19 +158,22 @@
     </div>
     <button class="d-flex btn btn-outline-primary" (click)="addLote()">
       <i class="fa fa-plus-circle my-1"></i>
-      <b class="ml-1"> New Lot</b>
+      <b class="ml-1">New Lot</b>
     </button>
   </div>
   <div class="card-footer">
-    <div class="d-flex">
-      <button class="btn btn-outline-secondary mr-auto border">
-        Cancel
-      </button>
-      <button class="btn btn-success" disabled]="!form.valid" (click)="saveEvent()">
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-success" [disabled]="!form.controls['lotes'].valid" (click)="saveLots()">
         Save Lots
       </button>
     </div>
   </div>
 </div>
-<br>
 
+<ng-template #template>
+  <div class="modal-body text-center">
+    <p>Delete lot: {{currentLot.name}}?</p>
+    <button type="button" class="btn btn-default" (click)="confirm()" >Yes</button>
+    <button type="button" class="btn btn-primary" (click)="decline()" >No</button>
+  </div>
+</ng-template>

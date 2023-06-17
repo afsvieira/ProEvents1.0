@@ -7,7 +7,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavComponent } from './shared/nav/nav.component';
+
 import { EventService } from './services/event.service';
+import { LoteService } from './services/lote.service';
 
 import { ContactsComponent } from './components/contacts/contacts.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -29,6 +31,7 @@ import { EventListComponent } from './components/events/event-list/event-list.co
 import { UserComponent } from './components/user/user.component';
 import { LoginComponent } from './components/user/login/login.component';
 import { RegistrationComponent } from './components/user/registration/registration.component';
+import { NgxCurrencyModule } from 'ngx-currency';
 
 
 
@@ -67,10 +70,12 @@ import { RegistrationComponent } from './components/user/registration/registrati
         preventDuplicates: true,
         progressBar: true
       }),
-      NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
+    NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
+    NgxCurrencyModule
   ],
   providers: [
-    EventService
+    EventService,
+    LoteService
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
