@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using ProEventos.Application.Contracts;
 using Microsoft.AspNetCore.Http;
 using ProEventos.Application.DTOS;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
+using System.Linq;
 
 namespace ProEventos1._0.API.Controllers
 {
@@ -11,10 +14,12 @@ namespace ProEventos1._0.API.Controllers
     [Route("api/[controller]")]
     public class EventsController : ControllerBase
     {
-        public IEventService _eventService { get; }
+        public readonly IEventService _eventService;
+        private readonly IWebHostEnvironment _hostEnvironment;
         
-        public EventsController(IEventService eventService)
+        public EventsController(IEventService eventService, IWebHostEnvironment hostEnvironment)
         {            
+            this._hostEnvironment = hostEnvironment;
             this._eventService = eventService;
             
         }
@@ -119,6 +124,52 @@ namespace ProEventos1._0.API.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
                         $"Error when trying to delete event. Error: {ex.Message}");
             }
+        }
+
+        [HttpPost("upload-image/{eventId}")]
+        public async Task<IActionResult> UploadImage(int eventId) {
+            try 
+            {
+                var evento = await _eventService.GetEventByIdAsync(eventId, true);
+                if(evento == null) return NoContent();
+
+                var file = Request.Form.Files[0];
+                if(file.Length > 0)
+                {
+                    DeleteImage(evento.ImageURL);
+                    evento.ImageURL = await SaveImage(file);
+
+                }
+                var eventReturn = await _eventService.UpdateEvent(eventId, evento);
+
+                return Ok(eventReturn);
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Error to loading image. Error: {ex.Message}");
+            }
+        }
+
+        [NonAction]
+        public void DeleteImage(string imageName)
+        {
+            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, @"Resources/Images");
+            if(System.IO.File.Exists(imagePath))
+                System.IO.File.Delete(imagePath);
+        }
+
+        [NonAction]
+        public async Task<string> SaveImage(IFormFile imageFile)
+        {
+            string imageName = new String(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(' ', '-');
+            imageName = $"{imageName}{DateTime.UtcNow.ToString("yymmssfff")}{Path.GetExtension(imageFile.FileName)}";
+            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, @"Resources/Images", imageName);
+            using(var fileStream = new FileStream(imagePath, FileMode.Create))
+            {
+                await imageFile.CopyToAsync(fileStream);
+            }
+            return imageName;
         }
     }
 }

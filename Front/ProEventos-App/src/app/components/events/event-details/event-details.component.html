@@ -1,174 +1,223 @@
-<div class="card rounded shadow-sm">
-  <form [formGroup]="form">
-    <div class="p-3">
-      <div class="form-row">
-        <div class="form-group col-md-12">
-          <label>Subject</label>
-          <input type="text" class="form-control" [ngClass]="cssValidator(f.subject)" formControlName="subject" placeholder="Add your subject">
-          <div *ngIf="f.subject.errors?.required" class="invalid-feedback">
-            Subject is required.
-          </div>
-          <div *ngIf="f.subject.errors?.maxlength" class="invalid-feedback">
-            Subject can only have a maximum of 50 characters..
-          </div>
-          <div *ngIf="f.subject.errors?.minlength" class="invalid-feedback">
-            Subject must have at least 4 characters.
-          </div>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-8">
-          <label>City</label>
-          <input type="text" class="form-control" [ngClass]="cssValidator(f.local)" formControlName="local" placeholder="City">
-          <div class="invalid-feedback">
-            City is required.
-          </div>
-        </div>
-        <div class="form-group col-md-4">
-          <label>Date and time</label>
-          <input type="datetime" class="form-control"
-            [ngClass]="cssValidator(f.eventDate)"
-            value="{{event.eventDate | DateTimeFormatPipe}}"
-            formControlName="eventDate"
-            bsDatepicker
-            [bsConfig]="bsConfig">
-          <div class="invalid-feedback">
-            Date and time are required.
-          </div>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-2">
-          <label>Quantity of participants</label>
-          <input type="text" class="form-control" [ngClass]="cssValidator(f.qtyGuests)" formControlName="qtyGuests" placeholder="">
-          <div *ngIf="f.qtyGuests.errors?.required" class="invalid-feedback">
-            Quantity of participants is required.
-          </div>
-          <div *ngIf="f.qtyGuests.errors?.max" class="invalid-feedback">
-            Number of participants limited to 1000.
-          </div>
-        </div>
-        <div class="form-group col-md-2">
-          <label>Phone</label>
-          <input type="text" class="form-control" [ngClass]="cssValidator(f.phone)" formControlName="phone" placeholder="(000)000-0000">
-          <div class="invalid-feedback">
-            Phone is required.
-          </div>
-        </div>
-        <div class="form-group col-md-4">
-          <label>Email</label>
-          <input type="text" class="form-control" [ngClass]="cssValidator(f.email)" formControlName="email" placeholder="e-mail">
-          <div class="invalid-feedback">
-            A valid email is required.
-          </div>
-        </div>
-        <div class="form-group col-md-4">
-          <label>Image</label>
-          <input type="text" class="form-control" [ngClass]="cssValidator(f.imageURL)" formControlName="imageURL" placeholder="image">
-          <div class="invalid-feedback">
-            Image is required.
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="card-footer">
-      <div class="d-flex">
-        <button class="btn btn-outline-secondary mr-auto border" (click)="resetForm()">
-          Cancel
-        </button>
-        <button class="btn btn-success" [disabled]="!form.valid" (click)="saveEvent()">
-          <!-- <span class="spinner-border spinner-border-sm mr-1"></span> -->
-          Save
-        </button>
-      </div>
-    </div>
-  </form>
-</div>
 
-<div class="card rounded shadow-sm mt-4" *ngIf="editMode">
-    <div class="p-3">
-      <div class="d-flex border-bottom">
-        <h2 class="mr-auto">
-          Lots of Event
-        </h2>
-        <h2>
-          <i class="fas fa-money-bill-wave"></i>
-        </h2>
-      </div>
-      <div class="form-row p-1">
-        <div [formGroup]="form" class="col">
-          <div formArrayName="lotes" *ngFor="let lote of lotes.controls; let i = index">
-            <fieldset [formGroupName]="i" class="form-group">
-              <legend class="d-flex justify-content-between capitalize">
-                {{
-                  returnTitle(lotes.get(i+'.name')?.value)
-                }}
-                <button class="p-2 btn btn-sm btn-outline-warning mb-1 d-flex"
+<div class="row px-3">
+  <div class="p-0" [ngClass]="{'col-md-8 pr-0': editMode, 'col-md-12': !editMode}">
+    <div class="card rounded shadow-sm">
+      <form [formGroup]="form">
+        <div class="p-3">
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label>Subject</label>
+              <input type="text" class="form-control" [ngClass]="cssValidator(f.subject)" formControlName="subject" placeholder="Add your subject">
+              <div *ngIf="f.subject.errors?.required" class="invalid-feedback">
+                Subject is required.
+              </div>
+              <div *ngIf="f.subject.errors?.maxlength" class="invalid-feedback">
+                Subject can only have a maximum of 50 characters..
+              </div>
+              <div *ngIf="f.subject.errors?.minlength" class="invalid-feedback">
+                Subject must have at least 4 characters.
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-8">
+              <label>City</label>
+              <input type="text" class="form-control" [ngClass]="cssValidator(f.local)" formControlName="local" placeholder="City">
+              <div class="invalid-feedback">
+                City is required.
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <label>Date and time</label>
+              <input type="datetime" class="form-control"
+              [ngClass]="cssValidator(f.eventDate)"
+              value="{{event.eventDate | DateTimeFormatPipe}}"
+              formControlName="eventDate"
+              bsDatepicker
+              [bsConfig]="bsConfig">
+              <div class="invalid-feedback">
+                Date and time are required.
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-2">
+              <label>Participants</label>
+              <input type="text" class="form-control" [ngClass]="cssValidator(f.qtyGuests)" formControlName="qtyGuests" placeholder="">
+              <div *ngIf="f.qtyGuests.errors?.required" class="invalid-feedback">
+                Quantity of participants is required.
+              </div>
+              <div *ngIf="f.qtyGuests.errors?.max" class="invalid-feedback">
+                Number of participants limited to 1000.
+              </div>
+            </div>
+            <div class="form-group col-md-2">
+              <label>Phone</label>
+              <input type="text" class="form-control" [ngClass]="cssValidator(f.phone)" formControlName="phone" placeholder="(000)000-0000">
+              <div class="invalid-feedback">
+                Phone is required.
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <label>Email</label>
+              <input type="text" class="form-control" [ngClass]="cssValidator(f.email)" formControlName="email" placeholder="e-mail">
+              <div class="invalid-feedback">
+                A valid email is required.
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <label>Image</label>
+              <input type="text" class="form-control" [ngClass]="cssValidator(f.imageURL)" formControlName="imageURL" placeholder="image">
+              <div class="invalid-feedback">
+                Image is required.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="d-flex">
+            <button class="btn btn-outline-secondary mr-auto border" (click)="resetForm()">
+              Cancel
+            </button>
+            <button class="btn btn-success" [disabled]="!form.valid" (click)="saveEvent()">
+              <!-- <span class="spinner-border spinner-border-sm mr-1"></span> -->
+              Save
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="card rounded shadow-sm mt-3" *ngIf="editMode">
+      <div class="p-3">
+        <div class="d-flex border-bottom">
+          <h2 class="mr-auto">
+            Lots of Event
+          </h2>
+          <h2>
+            <i class="fas fa-money-bill-wave"></i>
+          </h2>
+        </div>
+        <div class="form-row p-1">
+          <div [formGroup]="form" class="col">
+            <div formArrayName="lotes" *ngFor="let lote of lotes.controls; let i = index">
+              <fieldset [formGroupName]="i" class="form-group">
+                <legend class="d-flex justify-content-between capitalize">
+                  {{
+                    returnTitle(lotes.get(i+'.name')?.value)
+                  }}
+                  <button class="p-2 btn btn-sm btn-outline-warning mb-1 d-flex"
                   tooltip="Delete lote"
                   [adaptivePosition]="false"
                   [delay]="500"
                   (click)="openModal(template, i)"
                   placement="left">
-                <i class="fa fa-window-close my-1"></i>
-                <b class="ml-1 d-none d-sm-block">Delete</b>
-              </button>
-            </legend>
-            <div class="row">
-              <div class="form-group col-md-4">
-                <label>Name</label>
-                <input [ngClass]="cssValidator(lotes.get(i+'.name'))" type="text" class="form-control" formControlName="name" placeholder="Lote">
-                <div class="invalid-feedback">
-                  Name is required.
+                  <i class="fa fa-window-close my-1"></i>
+                  <b class="ml-1 d-none d-sm-block">Delete</b>
+                </button>
+              </legend>
+              <div class="row">
+                <div class="form-group col-md-4">
+                  <label>Name</label>
+                  <input [ngClass]="cssValidator(lotes.get(i+'.name'))" type="text" class="form-control" formControlName="name" placeholder="Lote">
+                  <div class="invalid-feedback">
+                    Name is required.
+                  </div>
+                </div>
+                <div class="form-group col-md-4">
+                  <label>Quantity of guests</label>
+                  <input [ngClass]="cssValidator(lotes.get(i+'.quantity'))" type="text" class="form-control" formControlName="quantity" placeholder="0000">
+                  <div class="invalid-feedback" *ngIf="lotes.at(i).get('quantity')?.errors?.['required']">
+                    Quantity of participants is required.
+                  </div>
+                  <div *ngIf="lotes.at(i).get('quantity')?.errors?.['max']" class="invalid-feedback">
+                    Number of participants limited to 1000.
+                  </div>
+                </div>
+                <div class="form-group col-md-4">
+                  <label>Price</label>
+                  <input type="text" currencyMask [options]="{prefix: '$', thousands: ',', decimal: '.', suffix: ' CAD', align: 'left'}" class="form-control" formControlName="price" placeholder="$ 0.00">
+                </div>
+                <div class="form-group col-md-4">
+                  <label>Start Date</label>
+                  <input type="text"
+                  class="form-control"
+                  value="{{lotes.at(i).get('dateStart')?.value | date:'MMM dd, yyyy'}}"
+                  formControlName="dateStart"
+                  bsDatepicker>
+                </div>
+                <div class="form-group col-md-4">
+                  <label>End Date</label>
+                  <input type="text"
+                  class="form-control"
+                  value="{{lotes.at(i).get('dateEnd')?.value | date:'MMM dd, yyyy'}}"
+                  formControlName="dateEnd"
+                  bsDatepicker>
                 </div>
               </div>
-              <div class="form-group col-md-4">
-                <label>Quantity of guests</label>
-                <input [ngClass]="cssValidator(lotes.get(i+'.quantity'))" type="text" class="form-control" formControlName="quantity" placeholder="0000">
-                <div class="invalid-feedback" *ngIf="lotes.at(i).get('quantity')?.errors?.['required']">
-                  Quantity of participants is required.
-                </div>
-                <div *ngIf="lotes.at(i).get('quantity')?.errors?.['max']" class="invalid-feedback">
-                  Number of participants limited to 1000.
-                </div>
-              </div>
-              <div class="form-group col-md-4">
-                <label>Price</label>
-                <input type="text" currencyMask [options]="{prefix: '$', thousands: ',', decimal: '.', suffix: ' CAD', align: 'left'}" class="form-control" formControlName="price" placeholder="$ 0.00">
-              </div>
-              <div class="form-group col-md-4">
-                <label>Start Date</label>
-                <input type="text"
-                      class="form-control"
-                      value="{{lotes.at(i).get('dateStart')?.value | date:'MMM dd, yyyy'}}"
-                      formControlName="dateStart"
-                      bsDatepicker>
-              </div>
-              <div class="form-group col-md-4">
-                <label>End Date</label>
-                <input type="text"
-                      class="form-control"
-                      value="{{lotes.at(i).get('dateEnd')?.value | date:'MMM dd, yyyy'}}"
-                      formControlName="dateEnd"
-                      bsDatepicker>
-              </div>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+      <button class="d-flex btn btn-outline-primary" (click)="addLote()">
+        <i class="fa fa-plus-circle my-1"></i>
+        <b class="ml-1">New Lot</b>
+      </button>
+    </div>
+    <div class="card-footer">
+      <div class="d-flex justify-content-end">
+        <button class="btn btn-success" [disabled]="!form.controls['lotes'].valid" (click)="saveLots()">
+          Save Lots
+        </button>
+      </div>
+    </div>
+    </div>
+  </div>
+  <div class="col-md-4 pr-0" *ngIf="editMode">
+    <div [formGroup]="form" class="card-evento-view shadow-sm">
+      <div class="form-row">
+        <div class="form-group m-0">
+          <input type="file" (change)="onFileChanged($event)" #file class="form-control is-invalid" placeholder="" style="display: none">
+        </div>
+      </div>
+      <div class="card profile-card-2">
+        <div class="card-img-block">
+          <img class="image" class="img-fluid" (click)="file.click()" alt="Card image cap" [src]="imageUrl"
+              tooltip="Upload new image" [adaptivePosition]="false" placement="bottom" />
+        </div>
+        <div class="card-body pt-3">
+          <h4>{{event.subject}}</h4>
+          <p class="card-text">
+            <b>Local:</b> {{event.local}}
+            <br>
+            <b>Data:</b> {{event.eventDate| DateTimeFormatPipe}}
+          </p>
+          <hr>
+          <p class="card-text">
+            <b>Contact</b><br>
+            <small class="text-muted">Phone: {{event.phone}}</small>
+            <br>
+            <small class="text-muted">e-mail: {{event.email}}</small>
+          </p>
+          <p class="card-text">
+            Capacity:
+            <small class="text-muted">{{event.qtyGuests}}</small>
+          </p>
+          <div class="row">
+            <div class="icon-block col-md-8 iconesSociais">
+              <a href="">
+                <i class=""></i>
+              </a>
             </div>
-          </fieldset>
+            <!--div class="col-md-4 d-flex justify-content-center">
+              <a href="#" class="btn btn-outline-primary">Participar</a>
+            </div-->
+          </div>
         </div>
       </div>
     </div>
-    <button class="d-flex btn btn-outline-primary" (click)="addLote()">
-      <i class="fa fa-plus-circle my-1"></i>
-      <b class="ml-1">New Lot</b>
-    </button>
-  </div>
-  <div class="card-footer">
-    <div class="d-flex justify-content-end">
-      <button class="btn btn-success" [disabled]="!form.controls['lotes'].valid" (click)="saveLots()">
-        Save Lots
-      </button>
-    </div>
   </div>
 </div>
+
 
 <ng-template #template>
   <div class="modal-body text-center">

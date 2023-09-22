@@ -15,7 +15,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 @Component({
   selector: 'app-event-details',
   templateUrl: './event-details.component.html',
-  styleUrls: ['./event-details.component.css']
+  styleUrls: ['./event-details.component.scss']
 })
 export class EventDetailsComponent implements OnInit {
   modalRef?: BsModalRef;
@@ -26,6 +26,8 @@ export class EventDetailsComponent implements OnInit {
   eventId: number = 0;
   lotId: number = 0;
   currentLot = {id: 0, name: '', index: 0};
+  imageUrl = 'assets/image/upload.png';
+  imageFile!: File;
 
   get editMode(): boolean {
     return this.saveState === 'put'
@@ -211,6 +213,15 @@ export class EventDetailsComponent implements OnInit {
     return value === null || value === ''
     ? 'Lot name'
     : value
+  }
+
+  public onFileChanged(evento: any) : void {
+    const reader = new FileReader();
+
+    reader.onload = (event: any) => this.imageUrl = event.target.result;
+
+    this.imageFile = evento.target.files[0];
+    reader.readAsDataURL(this.imageFile)
   }
 
   //

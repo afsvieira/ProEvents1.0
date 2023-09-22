@@ -46,7 +46,7 @@
         <td class="ml-1 d-none d-md-table-cell">{{event.local}}</td>
         <td>{{event.eventDate | DateTimeFormatPipe}}</td>
         <td class="ml-1 d-none d-md-table-cell">{{event.qtyGuests}}</td>
-        <td class="ml-1 d-none d-md-table-cell">{{event.lotes[0]?.name}}</td>
+        <td class="ml-1 d-none d-md-table-cell">{{event.lotes[0].name}}</td>
         <td>
           <div class="btn-group">
             <button type="button" class="btn btn-danger btn-lg" tooltip="Delete" (click)="openModal($event, template, event.id)">
